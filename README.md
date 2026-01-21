@@ -1,14 +1,27 @@
-# home-lab-scripts
+# Attack Simulation Lab
+
+## Overview
+
+The purpose of this lab is to simulate and detect real-world attack scenarios in a controlled environment to strengthen on-premise and cloud security practices through automation tools. This has also benefited me in:
+- Translating concepts from the AZ-500 and SC-200 Microsoft Azure certification exams into hands-on practice
+- Applying Infrastructure as Code (IaC) principles using Terraform and Ansible.
+- Learning new services e.g. Azure OpenAI
+
+### Planned implementation
+| Phase   | Service                     | Attacks involved                                     | Status      |
+| ------- | --------------------------- | ---------------------------------------------------- | ----------- |
+| Phase 1 | Active Directory            | Kerberoasting, AS-REP Roasting                       | Completed   |
+| Phase 2 | Azure Services              | Port scanning, Service Principal client secret abuse | In progress |
+| Phase 3 | Entra ID Conditional Access | TBD                                                  | Not started |
+| Phase 4 | Azure OpenAI                | LLM attacks (Project injection, etc.)                | Not started |
 
 ![Diagram](https://github.com/user-attachments/assets/859cdd43-ddc8-4a77-bd0a-d4bdaf069690)
 
-Easily deploy a security lab environment using automation scripts designed to simulate on attacks and faciliate log ingestion for analysis and detection!
+## Ansible (Phase 1 only)
 
-These scripts are tested on virtual machines (e.g. VMware Workstation), but they can also be run on physical machines or cloud-based virtual instances.
+Ansible scripts are tested on virtual machines (e.g. VMware Workstation), but they can also run on physical machines or cloud-based virtual instances.
 
 Simply install the operating system, setup remote configurations, choose the intended tasks, edit the variables on *inventory.yml*, *site.yml* and */group_vars* and you're good to go!
-
-## Ansible
 
 ### Getting Started
 
@@ -41,14 +54,13 @@ Instructions
 ### Available Tasks
 
 #### Setup
+Active
 | Platform | Task                  | Description                                                   | Automated |
 | -------- | --------------------- | ------------------------------------------------------------- | --------- |
 | Ubuntu   | ubuntu_changehostname | Changes the host name                                         |           |
 | Ubuntu   | ubuntu_azurearc       | Onboard machine to Azure Arc                                  |           |
 | Ubuntu   | ubuntu_joindomain     | Joins an Active Directory domain                              |           |
-| Ubuntu   | ubuntu_mysql          | Installs MySQL server                                         |           |
 | Ubuntu   | ubuntu_rsyslog        | Provides information on installing rsyslog                    | No        |
-| Ubuntu   | ubuntu_wordpress      | Installs WordPress                                            |           |
 | Windows  | win_changehostname    | Sets WinRM service to Auto and changes the host name          |           |
 | Windows  | win_azurearc          | Onboard machine to Azure Arc                                  |           |
 | Windows  | win_joindomain        | Joins an Active Directory domain                              |           |
@@ -56,6 +68,12 @@ Instructions
 | Windows  | win_eventcollector    | Configures Windows Event Collector                            |           |
 | Windows  | win_eventforwarder    | Provides GPO settings to configure Windows Event Forwarder    | No        |
 | Windows  | win_joindomain        | Joins an Active Directory domain                              |           | 
+
+Inactive, for future use
+| Platform | Task                  | Description                                                   | Automated |
+| -------- | --------------------- | ------------------------------------------------------------- | --------- |
+| Ubuntu   | ubuntu_mysql          | Installs MySQL server                                         |           |
+| Ubuntu   | ubuntu_wordpress      | Installs WordPress                                            |           |
 
 #### Attack Simulations
 For attack simulations, run `sudo ansible-playbook site.yml -i inventory.yml -l kerberoasting` as apt packages may be installed on your managed node.
@@ -82,17 +100,22 @@ For attack simulations, run `sudo ansible-playbook site.yml -i inventory.yml -l 
   - Detections
     - Look for Windows events with ID 4768, with the ticket encryption type RC4 (0x17).
 
-## Terraform
+## Terraform (All Phases)
+
+### Getting Started
+
+Coming soon
 
 ### Azure Sentinel
 
 #### Setup
-Performs:
 - Creation of resource group
-- Creation of log analytics workspace (LAW), data collection rules (DCRs)
-- Onboard Azure Arc machines (Windows & Linux) and install Azure Monitor Agents
-- Add Azure Arc machines to Data sources in DCR
-- Onboard LAW to Microsoft Sentinel
+- Creation of log analytics workspace (LAW) and onboard LAW to Microsoft Sentinel
 - Add following analytic rules:
   - Potential Kerberoasting
   - Potential AS-REP Roasting
+
+#### Phase 1
+- Creation of data collection rules (DCRs)
+- Onboard Azure Arc machines (Windows & Linux) and install Azure Monitor Agents
+- Add Azure Arc machines to Data sources in DCR
