@@ -1,3 +1,3 @@
 variable "rg" {
-  type        = map(string)
+  type = map(string)
 }

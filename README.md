@@ -5,78 +5,61 @@
 The purpose of this lab is to simulate and detect real-world attack scenarios in a controlled environment to strengthen on-premise and cloud security practices through automation tools. This has also benefited me in:
 - Translating concepts from the AZ-500 and SC-200 Microsoft Azure certification exams into hands-on practice
 - Applying Infrastructure as Code (IaC) principles using Terraform and Ansible.
-- Learning new services e.g. Azure OpenAI
+- Learning new technologies e.g. Azure OpenAI (coming soon)
 
-### Planned implementation
-| Phase   | Service                     | Attacks involved                                     | Status      |
-| ------- | --------------------------- | ---------------------------------------------------- | ----------- |
-| Phase 1 | Active Directory            | Kerberoasting, AS-REP Roasting                       | Completed   |
-| Phase 2 | Azure Services              | Port scanning, Service Principal client secret abuse | In progress |
-| Phase 3 | Entra ID Conditional Access | TBD                                                  | Not started |
-| Phase 4 | Azure OpenAI                | LLM attacks (Project injection, etc.)                | Not started |
+## Features
 
 ![Diagram](https://github.com/user-attachments/assets/859cdd43-ddc8-4a77-bd0a-d4bdaf069690)
 
-## Ansible (Phase 1 only)
+List of infrastructures and attacks simulated:
+1. Active Directory
+  - Kerberoasting
+  - AS-REP Roasting
+2. Azure Services
+  - Port Scanning on *VM Public IP Address*
+  - Modify Cloud Infrastructure Resources through *Service Principal secret*
+  - Steal Credentials from *Key Vault*
 
-Ansible scripts are tested on virtual machines (e.g. VMware Workstation), but they can also run on physical machines or cloud-based virtual instances.
+All of these attacks are audited into logs and forwarded to **Microsoft Sentinel**.
 
-Simply install the operating system, setup remote configurations, choose the intended tasks, edit the variables on *inventory.yml*, *site.yml* and */group_vars* and you're good to go!
+## Infrastructure Setup
 
-### Getting Started
+Setup is done through Ansible (for Active Directory) and Terraform (for Azure Services).
 
-To add or remove tasks, modify the tasks of the host groups in *site.yml* to your needs.
+### Ansible
 
-Be sure to modify the hosts and variables in ***inventory.yml*** and ***/group_vars*** before running!
-
-To run, enter `ansible-playbook site.yml -i inventory.yml [-l win_dc]`
-
-#### Windows
-Tested platforms
-- Windows Server 2022
-- Windows 11
-
-Instructions
-1. To perform tasks on a Windows machine, enable the Windows Remote Management (WinRM) protocol by running `winrm quickconfig`.
-2. A password is mandatory for authentication using WinRM. `Ctrl+Alt+Delete` -> Change password to assign a password.
-3. Ensure that Network Location for the network adapter is set to **Private** to prevent any Firewall issues.
-4. (For Windows Server) If you encounter a SID duplicate error when joining a domain, run `%WINDIR%\system32\sysprep\sysprep.exe /generalize /restart /oobe /quiet`
-
-#### Linux
-Tested platforms
-- Ubuntu Server 24.04.3
-
-Instructions
-1. Generate a SSH key pair for installing public key on control node and private key on managed node using `ssh-keygen -f ~/.ssh/<control node computer name> -t ed25519`
-2. Copy the SSH public key to the control node: `ssh-copy-id -i ~/.ssh/control_node.pub ubuntu@192.168.100.1`
-3. Start the ssh-agent program and copy the private key to the agent in order to skip the passphrase prompt `ssh-agent $SHELL && ssh-add ~/.ssh/control_node`
-
-### Available Tasks
-
-#### Setup
 Active
 | Platform | Task                  | Description                                                   | Automated |
 | -------- | --------------------- | ------------------------------------------------------------- | --------- |
-| Ubuntu   | ubuntu_changehostname | Changes the host name                                         |           |
-| Ubuntu   | ubuntu_azurearc       | Onboard machine to Azure Arc                                  |           |
-| Ubuntu   | ubuntu_joindomain     | Joins an Active Directory domain                              |           |
-| Ubuntu   | ubuntu_rsyslog        | Provides information on installing rsyslog                    | No        |
-| Windows  | win_changehostname    | Sets WinRM service to Auto and changes the host name          |           |
-| Windows  | win_azurearc          | Onboard machine to Azure Arc                                  |           |
-| Windows  | win_joindomain        | Joins an Active Directory domain                              |           |
-| Windows  | win_createdomain      | Creates an Active Directory Domain Controller as a new forest |           |
-| Windows  | win_eventcollector    | Configures Windows Event Collector                            |           |
-| Windows  | win_eventforwarder    | Provides GPO settings to configure Windows Event Forwarder    | No        |
-| Windows  | win_joindomain        | Joins an Active Directory domain                              |           | 
+| Windows  | win_changehostname    | Set WinRM service to Auto and changes the host name           | ✅ |
+| Windows  | win_azurearc          | Onboard machine to Azure Arc                                  | ✅ |
+| Windows  | win_joindomain        | Join an Active Directory domain                               | ✅ |
+| Windows  | win_createdomain      | Create an Active Directory Domain Controller as a new forest  | ✅ |
+| Windows  | win_eventcollector    | Configure Windows Event Collector                             | ✅ |
+| Windows  | win_eventforwarder    | Provide GPO settings to configure Windows Event Forwarder     | ❌ |
 
 Inactive, for future use
 | Platform | Task                  | Description                                                   | Automated |
 | -------- | --------------------- | ------------------------------------------------------------- | --------- |
-| Ubuntu   | ubuntu_mysql          | Installs MySQL server                                         |           |
-| Ubuntu   | ubuntu_wordpress      | Installs WordPress                                            |           |
+| Ubuntu   | ubuntu_changehostname | Change the host name                                          | ✅ |
+| Ubuntu   | ubuntu_azurearc       | Onboard machine to Azure Arc                                  | ✅ |
+| Ubuntu   | ubuntu_joindomain     | Join an Active Directory domain                               | ✅ |
+| Ubuntu   | ubuntu_rsyslog        | Provide information on installing rsyslog                     | ❌ |
+| Ubuntu   | ubuntu_mysql          | Install MySQL server                                          | ✅ |
+| Ubuntu   | ubuntu_wordpress      | Install WordPress                                             | ✅ |
 
-#### Attack Simulations
-For attack simulations, run `sudo ansible-playbook site.yml -i inventory.yml -l kerberoasting` as apt packages may be installed on your managed node.
+### Terraform
+
+| Service                   | Module         | Description                                                                                 | Automated |
+| ------------------------- | -------------- | ------------------------------------------------------------------------------------------- | --------- |
+| Sentinel                  | sentinel       | Create Log Analytics Workspace, Onboard to Sentinel and import analytic rules and watchlist | ❗ |
+| Sentinel - Azure Activity | -              | Enable Azure Activity in Data Connector to ingest activity log                              | ❌ |
+| Azure Arc                 | arc            | Connect Windows/Linux machine to Arc-enabled server and enable Azure Monitor Agent          | ✅ |
+| Virtual Machine           | vm             | Create Virtual Machine, Virtual Network, Public IP, Network Security Group                  | ✅ |
+| Virtual Network Flow Logs | vnet_flow_logs | Create flow logs for logging network traffic                                                | ✅ |
+| Key Vault                 | keyvault       | Create Key Vault, store a secret and enable audit log in Diagnostic setting                 | ❗ |
+
+## Attack Simulations
 
 1. Kerberoasting
   - Description
@@ -100,22 +83,6 @@ For attack simulations, run `sudo ansible-playbook site.yml -i inventory.yml -l 
   - Detections
     - Look for Windows events with ID 4768, with the ticket encryption type RC4 (0x17).
 
-## Terraform (All Phases)
+## Instructions
 
-### Getting Started
-
-Coming soon
-
-### Azure Sentinel
-
-#### Setup
-- Creation of resource group
-- Creation of log analytics workspace (LAW) and onboard LAW to Microsoft Sentinel
-- Add following analytic rules:
-  - Potential Kerberoasting
-  - Potential AS-REP Roasting
-
-#### Phase 1
-- Creation of data collection rules (DCRs)
-- Onboard Azure Arc machines (Windows & Linux) and install Azure Monitor Agents
-- Add Azure Arc machines to Data sources in DCR
+WIP
