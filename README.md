@@ -52,14 +52,19 @@ Inactive, for future use
 
 | Service                   | Module         | Description                                                                                 | Automated |
 | ------------------------- | -------------- | ------------------------------------------------------------------------------------------- | --------- |
-| Sentinel                  | sentinel       | Create Log Analytics Workspace, Onboard to Sentinel and import analytic rules and watchlist | ⚠️ |
-| Sentinel - Azure Activity | -              | Enable Azure Activity in Data Connector to ingest activity log                              | ❌ |
+| Sentinel                  | sentinel       | Create Log Analytics Workspace, Onboard to Sentinel and import analytic rules and watchlist | ⚠️ <sup>1</sup> |
+| Sentinel - Azure Activity | -              | Enable Azure Activity in Data Connector to ingest activity log                              | ❌ <sup>1</sup> |
 | Azure Arc                 | arc            | Connect Windows/Linux machine to Arc-enabled server and enable Azure Monitor Agent          | ✅ |
 | Virtual Machine           | vm             | Create Virtual Machine, Virtual Network, Public IP, Network Security Group                  | ✅ |
 | Virtual Network Flow Logs | vnet_flow_logs | Create flow logs for logging network traffic                                                | ✅ |
-| Key Vault                 | keyvault       | Create Key Vault, store a secret and enable audit log in Diagnostic setting                 | ⚠️ |
+| Key Vault                 | keyvault       | Create Key Vault and enable audit log in Diagnostic setting                                 | ✅ |
+
+- ⚠️<sup>1</sup> Watchlist is created but you will need to import the data manually (Ignore this if you don't want to simulate *Modify Cloud Infrastructure Resources* attack)
+- ❌<sup>1</sup> There is no Terraform support for Sentinel Content Hub. You will need to install in Content Hub, go to Data Connector and create the built-in policy assignment to ingest logs.
 
 ## Attack Simulations
+
+### Active Directory
 
 1. Kerberoasting
   - Description
@@ -83,6 +88,45 @@ Inactive, for future use
   - Detections
     - Look for Windows events with ID 4768, with the ticket encryption type RC4 (0x17).
 
-## Instructions
+### Azure Services
+
+1. Port Scanning on *VM Public IP Address*
+
+2. Modify Cloud Infrastructure Resources through *Service Principal secret*
+
+3. Steal Credentials from *Key Vault*
 
 WIP
+
+## Instructions
+
+### Ansible
+
+To add or remove tasks, modify the tasks of the host groups in *site.yml* to your needs.
+
+Be sure to modify the hosts and variables in ***inventory.yml*** and ***/group_vars*** before running!
+
+To run, enter `ansible-playbook site.yml -i inventory.yml [-l win_dc]`
+
+#### For Windows machines
+
+1. To perform tasks on a Windows machine, enable the Windows Remote Management (WinRM) protocol by running `winrm quickconfig`.
+2. A password is mandatory for authentication using WinRM. `Ctrl+Alt+Delete` -> Change password to assign a password.
+3. Ensure that Network Location for the network adapter is set to **Private** to prevent any Firewall issues.
+4. (For Windows Server) If you encounter a SID duplicate error when joining a domain, run `%WINDIR%\system32\sysprep\sysprep.exe /generalize /restart /oobe /quiet`
+
+#### For Linux machines
+
+1. Generate a SSH key pair for installing public key on control node and private key on managed node using `ssh-keygen -f ~/.ssh/<control node computer name> -t ed25519`
+2. Copy the SSH public key to the control node: `ssh-copy-id -i ~/.ssh/control_node.pub ubuntu@192.168.100.1`
+3. Start the ssh-agent program and copy the private key to the agent in order to skip the passphrase prompt `ssh-agent $SHELL && ssh-add ~/.ssh/control_node`
+
+### Terraform
+
+Make sure to [create a Service Principal and set the credentials in environment variables](https://developer.hashicorp.com/terraform/tutorials/azure-get-started/azure-build) to provision the resources.
+
+To provision, enter:
+```
+terraform init
+terraform apply [-target module.sentinel_vnet_flow_logs]
+```
