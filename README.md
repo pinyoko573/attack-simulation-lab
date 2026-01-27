@@ -1,15 +1,15 @@
 # Attack Simulation Lab
 
-## Overview
+![Diagram](https://github.com/user-attachments/assets/859cdd43-ddc8-4a77-bd0a-d4bdaf069690)
 
-The purpose of this lab is to simulate and detect real-world attack scenarios in a controlled environment to strengthen on-premise and cloud security practices through automation tools. This has also benefited me in:
-- Translating concepts from the AZ-500 and SC-200 Microsoft Azure certification exams into hands-on practice
-- Applying Infrastructure as Code (IaC) principles using Terraform and Ansible.
-- Learning new technologies e.g. Azure OpenAI (coming soon)
+Simulate and detect real-world attack scenarios in a controlled environment to strengthen on-premise and cloud security practices through automation tools.
+
+This project has helped me:
+- Apply concepts from the AZ-500 and SC-200 Microsoft Azure certification exams through hands-on practice
+- Implement Infrastructure as Code (IaC) principles using Terraform and Ansible
+- Explore emerging technologies such as Azure OpenAI (coming soon)
 
 ## Features
-
-![Diagram](https://github.com/user-attachments/assets/859cdd43-ddc8-4a77-bd0a-d4bdaf069690)
 
 List of infrastructures and attacks simulated:
 1. Active Directory
@@ -52,12 +52,12 @@ Inactive, for future use
 
 | Service                   | Module         | Description                                                                                 | Automated |
 | ------------------------- | -------------- | ------------------------------------------------------------------------------------------- | --------- |
-| Sentinel                  | sentinel       | Create Log Analytics Workspace, Onboard to Sentinel and import analytic rules and watchlist | ❗ |
+| Sentinel                  | sentinel       | Create Log Analytics Workspace, Onboard to Sentinel and import analytic rules and watchlist | ⚠️ |
 | Sentinel - Azure Activity | -              | Enable Azure Activity in Data Connector to ingest activity log                              | ❌ |
 | Azure Arc                 | arc            | Connect Windows/Linux machine to Arc-enabled server and enable Azure Monitor Agent          | ✅ |
 | Virtual Machine           | vm             | Create Virtual Machine, Virtual Network, Public IP, Network Security Group                  | ✅ |
 | Virtual Network Flow Logs | vnet_flow_logs | Create flow logs for logging network traffic                                                | ✅ |
-| Key Vault                 | keyvault       | Create Key Vault, store a secret and enable audit log in Diagnostic setting                 | ❗ |
+| Key Vault                 | keyvault       | Create Key Vault, store a secret and enable audit log in Diagnostic setting                 | ⚠️ |
 
 ## Attack Simulations
 
