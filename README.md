@@ -1,6 +1,6 @@
 # Attack Simulation Lab
 
-![Diagram](https://github.com/user-attachments/assets/859cdd43-ddc8-4a77-bd0a-d4bdaf069690)
+![Diagram](https://github.com/user-attachments/assets/0ce45d55-d76b-4cd6-83c5-2c0bebc59bb8)
 
 Simulate and detect real-world attack scenarios in a controlled environment to strengthen on-premise and cloud security practices through automation tools.
 
@@ -52,7 +52,7 @@ Inactive, for future use
 
 | Service                   | Module         | Description                                                                                 | Automated |
 | ------------------------- | -------------- | ------------------------------------------------------------------------------------------- | --------- |
-| Sentinel                  | sentinel       | Create Log Analytics Workspace, Onboard to Sentinel and import analytic rules and watchlist | ⚠️ <sup>1</sup><sup>2</sup> |
+| Sentinel                  | sentinel       | Create Log Analytics Workspace, Onboard to Sentinel and import analytic rules and watchlist | ⚠️ <sup>1,2</sup> |
 | Sentinel - Azure Activity | -              | Enable Azure Activity in Data Connector to ingest activity log                              | ❌ <sup>1</sup> |
 | Azure Arc                 | arc            | Connect Windows/Linux machine to Arc-enabled server and enable Azure Monitor Agent          | ✅ |
 | Virtual Machine           | vm             | Create Virtual Machine, Virtual Network, Public IP, Network Security Group                  | ✅ |
