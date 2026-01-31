@@ -1,6 +1,6 @@
 # Attack Simulation Lab
 
-![Diagram](https://github.com/user-attachments/assets/0ce45d55-d76b-4cd6-83c5-2c0bebc59bb8)
+![Diagram](https://github.com/user-attachments/assets/c9e1c7af-a283-4734-88ed-a44f2365ac8f)
 
 Simulate and detect real-world attack scenarios in a controlled environment to strengthen on-premise and cloud security practices through automation tools.
 
