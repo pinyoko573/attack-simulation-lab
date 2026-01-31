@@ -1,6 +1,6 @@
 # ---------- Create log analytics workspace ----------
 resource "azurerm_log_analytics_workspace" "log" {
-  name                = "log"
+  name                = "log-simulation"
   resource_group_name = var.rg.name
   location            = var.rg.location
   sku                 = "PerGB2018"

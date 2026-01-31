@@ -13,12 +13,12 @@ This project has helped me:
 
 List of infrastructures and attacks simulated:
 1. Active Directory
-  - Kerberoasting
-  - AS-REP Roasting
+   - Kerberoasting
+   - AS-REP Roasting
 2. Azure Services
-  - Port Scanning on *VM Public IP Address*
-  - Modify Cloud Infrastructure Resources through *Service Principal secret*
-  - Steal Credentials from *Key Vault*
+   - Port Scanning on *VM Public IP Address*
+   - Cloud Resource Modification via *Service Principal*
+   - Failed Key Vault Secret Access by *Service Principal*
 
 All of these attacks are audited into logs and forwarded to **Microsoft Sentinel**.
 
@@ -52,7 +52,7 @@ Inactive, for future use
 
 | Service                   | Module         | Description                                                                                 | Automated |
 | ------------------------- | -------------- | ------------------------------------------------------------------------------------------- | --------- |
-| Sentinel                  | sentinel       | Create Log Analytics Workspace, Onboard to Sentinel and import analytic rules and watchlist | ⚠️ <sup>1</sup> |
+| Sentinel                  | sentinel       | Create Log Analytics Workspace, Onboard to Sentinel and import analytic rules and watchlist | ⚠️ <sup>1</sup><sup>2</sup> |
 | Sentinel - Azure Activity | -              | Enable Azure Activity in Data Connector to ingest activity log                              | ❌ <sup>1</sup> |
 | Azure Arc                 | arc            | Connect Windows/Linux machine to Arc-enabled server and enable Azure Monitor Agent          | ✅ |
 | Virtual Machine           | vm             | Create Virtual Machine, Virtual Network, Public IP, Network Security Group                  | ✅ |
@@ -60,6 +60,7 @@ Inactive, for future use
 | Key Vault                 | keyvault       | Create Key Vault and enable audit log in Diagnostic setting                                 | ✅ |
 
 - ⚠️<sup>1</sup> Watchlist is created but you will need to import the data manually (Ignore this if you don't want to simulate *Modify Cloud Infrastructure Resources* attack)
+- ⚠️<sup>2</sup> Analytic rule 'Failed request to access Key Vault by Service Principal' needs to have **Diagnostics for Key Vault enabled first**.
 - ❌<sup>1</sup> There is no Terraform support for Sentinel Content Hub. You will need to install in Content Hub, go to Data Connector and create the built-in policy assignment to ingest logs.
 
 ## Attack Simulations
@@ -67,36 +68,31 @@ Inactive, for future use
 ### Active Directory
 
 1. Kerberoasting
-  - Description
-    - Kerberoasting is an attack where an attacker targets on service accounts by:
-      1. Enumerate service accounts with SPNs from the domain controller.
-      2. Using the authenticated user's ticket-granting ticket (TGT) to request for a Kerberos ticket-granting service (TGS) for every SPN, with the TGS's encryption type to be RC4, a weak cryptography algorithm.
-      3. Attempt to brute force the password hash in TGS to obtain the plaintext password of the service account.
-  - Assumptions
-    - Attacker is within the AD network and has an authenticated user account.
-  - Detections
-    - Look for Windows events with ID 4769, with the ticket encryption type RC4 (0x17).
+   - Simulation: Creates service account with SPN set, downloads and runs [Impacket's GetUserSPNs.py](https://github.com/fortra/impacket/releases/) to enumerate and obtain the account's password hash
+   - Detection: Detects for Windows events with ID 4769 (A Kerberos service ticket was requested), with the ticket encryption type RC4 (0x17)
+   - **Ansible required**
 
 2. AS-REP Roasting
-  - Description
-    - When an account has enabled 'Do not require Kerberos preauthentication', the domain controller will return a AS-REP message containing the TGT, where the TGT contains the password hash. An attacker can retrieve the plaintext password by:
-      1. Enumerate accounts with the DONT_REQ_PREAUTH flag set on the userAccountControl attribute.
-      2. Sends a Authentication Server Request (AS-REQ) to the domain controller, in which a Authentication Server Response (AS-REP) message will be returned to the attacker without pre-authentication validation.
-      3. Attempt to brute force the password hash in TGT to obtain the plaintext password of the account.
- - Assumptions
-    - Attacker is within the AD network and has an authenticated user account.
-  - Detections
-    - Look for Windows events with ID 4768, with the ticket encryption type RC4 (0x17).
+   - Simulation: Creates account with 'Do not require Kerberos preauthentication' enabled, downloads and runs [Impacket's GetNPUsers.py](https://github.com/fortra/impacket/releases/) to enumerate and sends AS-REQ to receive AS-REP, which contains the account's password hash in TGT
+   - Detection: Detects for Windows events with ID 4768 (A Kerberos authentication ticket (TGT) was requested), with the ticket encryption type RC4 (0x17)
+   - **Ansible required**
 
 ### Azure Services
 
-1. Port Scanning on *VM Public IP Address*
+3. Port Scanning on *VM Public IP Address*
+   - Simulation: Sends TCP SYN packets to 20 random port numbers of the VM's IP address
+   - Detection: Detects more than 10 unique port numbers that were communicated within 5 minutes on the vnet
+   - Uses bash script, specifying target IP address
 
-2. Modify Cloud Infrastructure Resources through *Service Principal secret*
+4. Cloud Resource Modification via *Service Principal*
+   - Simulation: Creates a resource group using a service principal with **Contributor** role
+   - Detection: Detects any successful Azure activity (create, update, delete) from a created service principal (check against a list of IDs used by Microsoft applications)
+   - Uses bash script, specifying Application ID, Client secret, Tenant ID, Subscription ID
 
-3. Steal Credentials from *Key Vault*
-
-WIP
+5. Failed Key Vault Secret Access by *Service Principal*
+   - Simulation: Attempts to list secrets from a key vault using a service principal with **Contributor** role
+   - Detection: Detects any failed Key Vault requests from a service principal
+   - Uses bash script, specifying Application ID, Client secret, Tenant ID, Subscription ID
 
 ## Instructions
 

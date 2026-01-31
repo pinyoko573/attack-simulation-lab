@@ -6,8 +6,8 @@ resource "azurerm_network_watcher" "nw" {
 }
 
 # Create storage for network watcher flow logs
-resource "azurerm_storage_account" "st" {
-  name                = "st"
+resource "azurerm_storage_account" "st-flowlog" {
+  name                = "stflowlog"
   resource_group_name = var.rg.name
   location            = var.rg.location
 

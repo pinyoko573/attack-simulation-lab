@@ -1,5 +1,5 @@
 resource "azurerm_key_vault" "kv" {
-  name                = "kv"
+  name                = "kv-secret"
   resource_group_name = var.rg.name
   location            = var.rg.location
   
@@ -9,5 +9,15 @@ resource "azurerm_key_vault" "kv" {
   network_acls {
     bypass         = "None"
     default_action = "Allow"
+  }
+}
+
+resource "azurerm_monitor_diagnostic_setting" "kv-diagnostic" {
+  name = "kv-secret-diagnostic"
+  target_resource_id = azurerm_key_vault.kv.id
+  log_analytics_workspace_id = var.log.id
+
+  enabled_log {
+    category       = "AuditEvent"
   }
 }

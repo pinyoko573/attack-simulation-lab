@@ -1,5 +1,5 @@
 # ---------- Sentinel schedule rules: Potential Kerberoasting ----------
-resource "azurerm_sentinel_alert_rule_scheduled" "log_rule-potential_kerberoasting-attack" {
+resource "azurerm_sentinel_alert_rule_scheduled" "log_rule-potential_kerberoasting" {
   log_analytics_workspace_id = azurerm_sentinel_log_analytics_workspace_onboarding.log_sentinel.workspace_id
   name = "potential_kerberoasting"
   display_name = "Potential Kerberoasting"
@@ -69,7 +69,7 @@ resource "azurerm_sentinel_alert_rule_scheduled" "log_rule-potential_kerberoasti
 }
 
 # ---------- Sentinel schedule rules: Potential AS-REP Roasting ----------
-resource "azurerm_sentinel_alert_rule_scheduled" "log_rule-potential_asreproasting-attack" {
+resource "azurerm_sentinel_alert_rule_scheduled" "log_rule-potential_asreproasting" {
   log_analytics_workspace_id = azurerm_sentinel_log_analytics_workspace_onboarding.log_sentinel.workspace_id
   name = "potential_asreproasting"
   display_name = "Potential AS-REP Roasting"
@@ -143,7 +143,7 @@ resource "azurerm_sentinel_alert_rule_scheduled" "log_rule-potential_asreproasti
 }
 
 # ---------- Sentinel schedule rules: Port Scanning on Azure Public IP ----------
-resource "azurerm_sentinel_alert_rule_scheduled" "log_rule-port_scanning_on_azure_public_ip-attack" {
+resource "azurerm_sentinel_alert_rule_scheduled" "log_rule-port_scanning_on_azure_public_ip" {
   log_analytics_workspace_id = azurerm_sentinel_log_analytics_workspace_onboarding.log_sentinel.workspace_id
   name = "port_scanning_on_azure_public_ip"
   display_name = "Port Scanning on Azure Public IP"
@@ -189,11 +189,11 @@ resource "azurerm_sentinel_alert_rule_scheduled" "log_rule-port_scanning_on_azur
 }
 
 # ---------- Sentinel schedule rules: Actions performed on Azure Resource by Service Principal ----------
-resource "azurerm_sentinel_alert_rule_scheduled" "log_rule-actions_performed_on_azure_resource_by_sp-attack" {
+resource "azurerm_sentinel_alert_rule_scheduled" "log_rule-successful_actions_performed_on_azure_resource_by_sp" {
   log_analytics_workspace_id = azurerm_sentinel_log_analytics_workspace_onboarding.log_sentinel.workspace_id
-  name = "actions_performed_on_azure_resource_by_sp"
-  display_name = "Actions performed on Azure Resource by Service Principal"
-  description = "Actions (create, delete, update) have been performed on Azure Resources by a Service Principal that was created in App Registrations."
+  name = "successful_actions_performed_on_azure_resource_by_sp"
+  display_name = "Successful actions performed on Azure Resource by Service Principal"
+  description = "Successful actions (create, delete, update) have been performed on Azure Resources by a Service Principal that was created in App Registrations."
   severity = "High"
   enabled = true
   query = <<EOF
@@ -237,13 +237,15 @@ resource "azurerm_sentinel_alert_rule_scheduled" "log_rule-actions_performed_on_
       reopen_closed_incidents = false
     }
   }
+
+  depends_on = [ azurerm_sentinel_watchlist_item.log_watchlist_item-azure_app_ids ]
 }
 
-# ---------- Sentinel schedule rules: Failed Attempt to access Key Vault by Service Principal ----------
-resource "azurerm_sentinel_alert_rule_scheduled" "log_rule-failed_attempt_to_access_key_vault_by_sp-attack" {
+# ---------- Sentinel schedule rules: Failed Request to access Key Vault by Service Principal ----------
+resource "azurerm_sentinel_alert_rule_scheduled" "log_rule-failed_request_to_access_key_vault_by_sp" {
   log_analytics_workspace_id = azurerm_sentinel_log_analytics_workspace_onboarding.log_sentinel.workspace_id
-  name = "failed_attempt_to_access_key_vault_by_sp"
-  display_name = "Failed Attempt to access Key Vault by Service Principal"
+  name = "failed_request_to_access_key_vault_by_sp"
+  display_name = "Failed request to access Key Vault by Service Principal"
   description = "A HTTP Request was made to access the Key Vault by a Service Principal, but its response was returned with a code other than 200 OK."
   severity = "Medium"
   enabled = true

@@ -38,10 +38,6 @@ resource "azurerm_monitor_data_collection_rule" "dcr-win" {
       name           = "windows-datasource-wineventlog"
     }
   }
-
-  depends_on = [
-    azurerm_log_analytics_workspace.log
-  ]
 }
 
 # Create data collection rule association

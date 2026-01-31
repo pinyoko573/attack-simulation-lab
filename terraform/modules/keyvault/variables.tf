@@ -5,3 +5,7 @@ variable "rg" {
 variable "sub_tenant_id" {
   type = string
 }
+
+variable "log" {
+  type = map(string)
+}

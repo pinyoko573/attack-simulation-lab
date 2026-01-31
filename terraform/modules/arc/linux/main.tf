@@ -39,10 +39,6 @@ resource "azurerm_monitor_data_collection_rule" "dcr-linux" {
       streams        = ["Microsoft-Syslog"]
     }
   }
-
-  depends_on = [
-    azurerm_log_analytics_workspace.log
-  ]
 }
 
 # Create data collection rule association
