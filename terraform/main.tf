@@ -35,23 +35,23 @@ module "sentinel" {
 #   log_id = module.sentinel.log.id
 # }
 
-# module "vm" {
-#   source = "./modules/vm"
-#   rg = {
-#     name     = azurerm_resource_group.rg-lab.name
-#     location = azurerm_resource_group.rg-lab.location
-#   }
-# }
+module "vm" {
+  source = "./modules/vm"
+  rg = {
+    name     = azurerm_resource_group.rg-lab.name
+    location = azurerm_resource_group.rg-lab.location
+  }
+}
 
-# module "sentinel_vnet_flow_logs" {
-#   source = "./modules/vnet_flow_logs"
-#   rg = {
-#     name     = azurerm_resource_group.rg-lab.name
-#     location = azurerm_resource_group.rg-lab.location
-#   }
-#   log = module.sentinel.log
-#   vnet_id = module.vm.vnet_id
-# }
+module "sentinel_vnet_flow_logs" {
+  source = "./modules/vnet_flow_logs"
+  rg = {
+    name     = azurerm_resource_group.rg-lab.name
+    location = azurerm_resource_group.rg-lab.location
+  }
+  log = module.sentinel.log
+  vnet_id = module.vm.vnet_id
+}
 
 module "keyvault" {
   source = "./modules/keyvault"

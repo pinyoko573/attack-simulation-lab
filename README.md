@@ -2,6 +2,19 @@
 
 ![Diagram](https://github.com/user-attachments/assets/c9e1c7af-a283-4734-88ed-a44f2365ac8f)
 
+Sentinel Alerts
+<p align="center">
+   <img src="https://github.com/user-attachments/assets/55d482cc-1c30-48c3-b570-816bba470e69" alt="Sentinel Incidents" style="width: 75%; height: auto;">
+   <img src="https://github.com/user-attachments/assets/f6200dea-217a-474d-8f9a-18851f7d2726" alt="Correlated alerts with same AadUserId entity" style="width: 60%; height: auto;">
+   <img src="https://github.com/user-attachments/assets/f8ca2652-a1ca-4427-b40a-5892b2608250" alt="Correlated alerts with same username and IP entity" style="width: 60%; height: auto;">
+</p>
+
+Kerberoasting POC
+<p align="center">
+   <img src="https://github.com/user-attachments/assets/ff9b0cea-7f54-49ae-ba3f-2a770eec4092" alt="Kerberoasting" style="width: 75%; height: auto;">
+   <img src="https://github.com/user-attachments/assets/c86f8bb2-5a44-4f09-b5d3-d95360608a1e" alt="Kerberoasting Hashcat" style="width: 70%; height: auto;">
+</p>
+
 Simulate and detect real-world attack scenarios in a controlled environment to strengthen on-premise and cloud security practices through automation tools.
 
 This project has helped me:
@@ -68,12 +81,12 @@ Inactive, for future use
 ### Active Directory
 
 1. Kerberoasting
-   - Simulation: Creates service account with SPN set, downloads and runs [Impacket's GetUserSPNs.py](https://github.com/fortra/impacket/releases/) to enumerate and obtain the account's password hash
+   - Simulation: Creates service account with SPN set, downloads and runs [Impacket's GetUserSPNs.py](https://github.com/fortra/impacket/releases/) from control (Ansible) node to enumerate and obtain the account's password hash
    - Detection: Detects for Windows events with ID 4769 (A Kerberos service ticket was requested), with the ticket encryption type RC4 (0x17)
    - **Ansible required**
 
 2. AS-REP Roasting
-   - Simulation: Creates account with 'Do not require Kerberos preauthentication' enabled, downloads and runs [Impacket's GetNPUsers.py](https://github.com/fortra/impacket/releases/) to enumerate and sends AS-REQ to receive AS-REP, which contains the account's password hash in TGT
+   - Simulation: Creates account with 'Do not require Kerberos preauthentication' enabled, downloads and runs [Impacket's GetNPUsers.py](https://github.com/fortra/impacket/releases/) from control (Ansible) node to enumerate and sends AS-REQ to receive AS-REP, which contains the account's password hash in TGT
    - Detection: Detects for Windows events with ID 4768 (A Kerberos authentication ticket (TGT) was requested), with the ticket encryption type RC4 (0x17)
    - **Ansible required**
 

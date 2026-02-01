@@ -18,6 +18,6 @@ resource "azurerm_monitor_diagnostic_setting" "kv-diagnostic" {
   log_analytics_workspace_id = var.log.id
 
   enabled_log {
-    category       = "AuditEvent"
+    category_group       = "audit"
   }
 }

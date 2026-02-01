@@ -23,7 +23,7 @@ resource "azurerm_network_watcher_flow_log" "nw-flowlog" {
 
   version              = 2
   network_watcher_name = azurerm_network_watcher.nw.name
-  storage_account_id   = azurerm_storage_account.st.id
+  storage_account_id   = azurerm_storage_account.st-flowlog.id
   target_resource_id   = var.vnet_id
   enabled              = true
 
