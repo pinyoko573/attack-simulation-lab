@@ -1,0 +1,122 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workflows_logic_rbac_name": {
+            "defaultValue": "logic-rbac",
+            "type": "String"
+        },
+        "connections_azuread_externalid": {
+            "defaultValue": "/subscriptions/<subscription-id>/resourceGroups/<rg-name>/providers/Microsoft.Web/connections/azuread",
+            "type": "String"
+        },
+        "group_id": {
+            "defaultValue": "",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2017-07-01",
+            "name": "[parameters('workflows_logic_rbac_name')]",
+            "location": "southeastasia",
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        }
+                    },
+                    "triggers": {
+                        "When_an_HTTP_request_is_received": {
+                            "type": "Request",
+                            "kind": "Http",
+                            "inputs": {
+                                "method": "POST",
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "email": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "actions": {
+                        "Get_groups_of_a_user_(V2)": {
+                            "runAfter": {},
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['azuread']['connectionId']"
+                                    }
+                                },
+                                "method": "post",
+                                "body": {
+                                    "securityEnabledOnly": true
+                                },
+                                "path": "/v2/v1.0/users/@{encodeURIComponent(triggerBody()['email'])}/getMemberGroups"
+                            }
+                        },
+                        "Compose": {
+                            "runAfter": {
+                                "Get_groups_of_a_user_(V2)": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Compose",
+                            "inputs": "@contains(body('Get_groups_of_a_user_(V2)')['value'],[parameters('group_id')])"
+                        },
+                        "Response": {
+                            "runAfter": {
+                                "Compose": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Response",
+                            "kind": "Http",
+                            "inputs": {
+                                "statusCode": 200,
+                                "body": "@outputs('Compose')"
+                            }
+                        },
+                        "Response_1": {
+                            "runAfter": {
+                                "Get_groups_of_a_user_(V2)": [
+                                    "Failed"
+                                ]
+                            },
+                            "type": "Response",
+                            "kind": "Http",
+                            "inputs": {
+                                "statusCode": 200,
+                                "body": "@false"
+                            }
+                        }
+                    }
+                },
+                "parameters": {
+                    "$connections": {
+                        "value": {
+                            "azuread": {
+                                "id": "[parameters('connections_azuread_externalid')]",
+                                "connectionId": "[parameters('connections_azuread_externalid')]",
+                                "connectionName": "azuread",
+                                "connectionProperties": {}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}

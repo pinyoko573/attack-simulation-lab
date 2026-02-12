@@ -1,0 +1,85 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workflows_logic_oscommand_name": {
+            "defaultValue": "logic-oscommand",
+            "type": "String"
+        },
+        "sites_func_openai_oscommand_externalid": {
+            "defaultValue": "/subscriptions/<subscription-id>/resourceGroups/<rg-name>/providers/Microsoft.Web/sites/func-openai-oscommand",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2017-07-01",
+            "name": "[parameters('workflows_logic_oscommand_name')]",
+            "location": "southeastasia",
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        }
+                    },
+                    "triggers": {
+                        "When_an_HTTP_request_is_received": {
+                            "type": "Request",
+                            "kind": "Http",
+                            "inputs": {
+                                "method": "POST",
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "actions": {
+                        "func-openai-oscommand-http_trigger1": {
+                            "runAfter": {},
+                            "type": "Function",
+                            "inputs": {
+                                "queries": {
+                                    "name": "@{triggerBody()['name']}"
+                                },
+                                "function": {
+                                    "id": "[concat(parameters('sites_func_openai_oscommand_externalid'), '/functions/http_trigger1')]"
+                                }
+                            }
+                        },
+                        "Response": {
+                            "runAfter": {
+                                "func-openai-oscommand-http_trigger1": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Response",
+                            "kind": "Http",
+                            "inputs": {
+                                "statusCode": 200,
+                                "body": "@body('func-openai-oscommand-http_trigger1')"
+                            }
+                        }
+                    }
+                },
+                "parameters": {
+                    "$connections": {
+                        "value": {}
+                    }
+                }
+            }
+        }
+    ]
+}

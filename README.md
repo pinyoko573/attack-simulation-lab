@@ -71,6 +71,7 @@ Inactive, for future use
 | Virtual Machine           | vm             | Create Virtual Machine, Virtual Network, Public IP, Network Security Group                  | ✅ |
 | Virtual Network Flow Logs | vnet_flow_logs | Create flow logs for logging network traffic                                                | ✅ |
 | Key Vault                 | keyvault       | Create Key Vault and enable audit log in Diagnostic setting                                 | ✅ |
+| Azure OpenAI              | openai       | Create Azure OpenAI and components for Assistants functions (App Service, Functions, Logic App)                                 | ⚠️ <sup>3</sup> |
 
 - ⚠️<sup>1</sup> Watchlist is created but you will need to import the data manually (Ignore this if you don't want to simulate *Modify Cloud Infrastructure Resources* attack)
 - ⚠️<sup>2</sup> Analytic rule 'Failed request to access Key Vault by Service Principal' needs to have **Diagnostics for Key Vault enabled first**.
