@@ -15,12 +15,19 @@ Kerberoasting POC
    <img src="https://github.com/user-attachments/assets/c86f8bb2-5a44-4f09-b5d3-d95360608a1e" alt="Kerberoasting Hashcat" style="width: 70%; height: auto;">
 </p>
 
+Azure OpenAI AI jailbreak to bypass RBAC & OS command injection POC
+<p align="center">
+   <img src="https://github.com/user-attachments/assets/3981bb5c-fc29-4791-ac14-b7c16479050f" alt="AI jailbreak to bypass RBAC" style="width: 60%; height: auto;">
+   <img src="https://github.com/user-attachments/assets/9ea8a2ea-35e8-4c88-bd45-43ed1eb2bf3e" alt="OS command injection" style="width: 60%; height: auto;">
+   <img src="https://github.com/user-attachments/assets/2df3db88-2731-4d16-94d6-4c012ea7fc5b" alt="AI jailbreak alert" style="width: 70%; height: auto;">
+</p>
+
 Simulate and detect real-world attack scenarios in a controlled environment to strengthen on-premise and cloud security practices through automation tools.
 
 This project has helped me:
 - Apply concepts from the AZ-500 and SC-200 Microsoft Azure certification exams through hands-on practice
 - Implement Infrastructure as Code (IaC) principles using Terraform and Ansible
-- Explore emerging technologies such as Azure OpenAI (coming soon)
+- Explore emerging technologies such as Azure OpenAI
 
 ## Features
 
@@ -32,12 +39,17 @@ List of infrastructures and attacks simulated:
    - Port Scanning on *VM Public IP Address*
    - Cloud Resource Modification via *Service Principal*
    - Failed Key Vault Secret Access by *Service Principal*
+   - AI jailbreak to bypass RBAC on Azure OpenAI
+   - OS Command Injection on Azure OpenAI
 
 All of these attacks are audited into logs and forwarded to **Microsoft Sentinel**.
 
 ## Infrastructure Setup
 
 Setup is done through Ansible (for Active Directory) and Terraform (for Azure Services).
+
+> [!NOTE]
+> For Azure OpenAI, refer [here](https://github.com/pinyoko573/attack-simulation-lab/blob/main/openai/README.md)
 
 ### Ansible
 
@@ -75,6 +87,7 @@ Inactive, for future use
 
 - ⚠️<sup>1</sup> Watchlist is created but you will need to import the data manually (Ignore this if you don't want to simulate *Modify Cloud Infrastructure Resources* attack)
 - ⚠️<sup>2</sup> Analytic rule 'Failed request to access Key Vault by Service Principal' needs to have **Diagnostics for Key Vault enabled first**.
+- ⚠️<sup>3</sup> Use the python script for Functions and deployment templates for App Service. You will need to setup Azure OpenAI manually.
 - ❌<sup>1</sup> There is no Terraform support for Sentinel Content Hub. You will need to install in Content Hub, go to Data Connector and create the built-in policy assignment to ingest logs.
 
 ## Attack Simulations
@@ -107,6 +120,15 @@ Inactive, for future use
    - Simulation: Attempts to list secrets from a key vault using a service principal with **Contributor** role
    - Detection: Detects any failed Key Vault requests from a service principal
    - Uses bash script, specifying Application ID, Client secret, Tenant ID, Subscription ID
+
+6. AI jailbreak to bypass Entra group-based RBAC on Azure OpenAI
+   - Simulation: Performs AI jailbreak to reveal unauthorised data from a fine-tuned model
+   - Detection: On Microsoft Defender for Cloud, a jailbreaking attempt alert is generated
+   - Use the prompts provided to simulate the attack
+
+7. OS Command Injection on Azure OpenAI
+   - Simulation: Passes malicious linux commands to a function available from the model
+   - Use the prompts provided to simulate the attack
 
 ## Instructions
 

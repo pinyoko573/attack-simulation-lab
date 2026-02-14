@@ -42,6 +42,11 @@ resource "azurerm_linux_function_app" "func-openai_oscommand" {
     application_stack {
       python_version = "3.12"
     }
+
+    cors {
+      allowed_origins = ["*"]
+      support_credentials = false
+    }
   }
 }
 
@@ -71,15 +76,15 @@ resource "azurerm_function_app_function" "func-openai_oscommand-func" {
 }
 
 # ---------- Create logic app for RBAC function ----------
-resource "azurerm_logic_app_workflow" "logic-rbac" {
-  name                = "logic-rbac"
-  location            = var.rg.location
-  resource_group_name = var.rg.name
-}
+# resource "azurerm_logic_app_workflow" "logic-rbac" {
+#   name                = "logic-rbac"
+#   location            = var.rg.location
+#   resource_group_name = var.rg.name
+# }
 
 # ---------- Create logic app for OS Command injection function ----------
-resource "azurerm_logic_app_workflow" "logic-oscommand" {
-  name                = "logic-oscommand"
-  location            = var.rg.location
-  resource_group_name = var.rg.name
-}
+# resource "azurerm_logic_app_workflow" "logic-oscommand" {
+#   name                = "logic-oscommand"
+#   location            = var.rg.location
+#   resource_group_name = var.rg.name
+# }

@@ -2,32 +2,79 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "connections_azuread_name": {
+            "defaultValue": "azuread",
+            "type": "String"
+        },
         "workflows_logic_rbac_name": {
             "defaultValue": "logic-rbac",
             "type": "String"
         },
-        "connections_azuread_externalid": {
-            "defaultValue": "/subscriptions/<subscription-id>/resourceGroups/<rg-name>/providers/Microsoft.Web/connections/azuread",
+        "group_id": {
+            "defaultValue": "00000000-0000-0000-0000-000000000000",
             "type": "String"
         },
-        "group_id": {
-            "defaultValue": "",
+        "subscription_id": {
+            "defaultValue": "00000000-0000-0000-0000-000000000000",
+            "type": "String"
+        },
+        "rg_name": {
+            "defaultValue": "rg-lab",
+            "type": "String"
+        },
+        "location": {
+            "defaultValue": "southeastasia",
             "type": "String"
         }
     },
     "variables": {},
     "resources": [
         {
+            "type": "Microsoft.Web/connections",
+            "apiVersion": "2016-06-01",
+            "name": "[parameters('connections_azuread_name')]",
+            "location": "[parameters('location')]",
+            "kind": "V1",
+            "properties": {
+                "displayName": "Microsoft Entra ID",
+                "statuses": [
+                    {
+                        "status": "Connected"
+                    }
+                ],
+                "customParameterValues": {},
+                "nonSecretParameterValues": {},
+                "createdTime": "2026-02-13T08:28:48.8439148Z",
+                "changedTime": "2026-02-13T08:36:00.7934134Z",
+                "api": {
+                    "name": "[parameters('connections_azuread_name')]",
+                    "displayName": "Microsoft Entra ID",
+                    "description": "Microsoft Entra ID is an Identity and Access Management cloud solution that extends your on-premises directories to the cloud and provides single sign-on to thousands of cloud (SaaS) apps and access to web apps you run on-premises.",
+                    "iconUri": "[concat('https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1788/1.0.1788.4524/', parameters('connections_azuread_name'), '/icon.png')]",
+                    "id": "[concat('/subscriptions/', parameters('subscription_id'),'/providers/Microsoft.Web/locations/', parameters('location'),'/managedApis/', parameters('connections_azuread_name'))]",
+                    "type": "Microsoft.Web/locations/managedApis"
+                },
+                "testLinks": []
+            }
+        },
+        {
             "type": "Microsoft.Logic/workflows",
             "apiVersion": "2017-07-01",
             "name": "[parameters('workflows_logic_rbac_name')]",
-            "location": "southeastasia",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/connections', parameters('connections_azuread_name'))]"
+            ],
             "properties": {
                 "state": "Enabled",
                 "definition": {
                     "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
                     "contentVersion": "1.0.0.0",
                     "parameters": {
+                        "group_id": {
+                            "defaultValue": "[parameters('group_id')]",
+                            "type": "String"
+                        },
                         "$connections": {
                             "defaultValue": {},
                             "type": "Object"
@@ -74,7 +121,7 @@
                                 ]
                             },
                             "type": "Compose",
-                            "inputs": "@contains(body('Get_groups_of_a_user_(V2)')['value'],[parameters('group_id')])"
+                            "inputs": "@contains(body('Get_groups_of_a_user_(V2)')['value'],parameters('group_id'))"
                         },
                         "Response": {
                             "runAfter": {
@@ -102,14 +149,15 @@
                                 "body": "@false"
                             }
                         }
-                    }
+                    },
+                    "outputs": {}
                 },
                 "parameters": {
                     "$connections": {
                         "value": {
                             "azuread": {
-                                "id": "[parameters('connections_azuread_externalid')]",
-                                "connectionId": "[parameters('connections_azuread_externalid')]",
+                                "id": "[concat('/subscriptions/', parameters('subscription_id'), '/providers/Microsoft.Web/locations/', parameters('location'), '/managedApis/azuread')]",
+                                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('connections_azuread_name'))]",
                                 "connectionName": "azuread",
                                 "connectionProperties": {}
                             }

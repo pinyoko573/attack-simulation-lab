@@ -6,8 +6,16 @@
             "defaultValue": "logic-oscommand",
             "type": "String"
         },
-        "sites_func_openai_oscommand_externalid": {
-            "defaultValue": "/subscriptions/<subscription-id>/resourceGroups/<rg-name>/providers/Microsoft.Web/sites/func-openai-oscommand",
+        "subscription_id": {
+            "defaultValue": "00000000-0000-0000-0000-000000000000",
+            "type": "String"
+        },
+        "rg_name": {
+            "defaultValue": "rg-lab",
+            "type": "String"
+        },
+        "location": {
+            "defaultValue": "southeastasia",
             "type": "String"
         }
     },
@@ -17,7 +25,7 @@
             "type": "Microsoft.Logic/workflows",
             "apiVersion": "2017-07-01",
             "name": "[parameters('workflows_logic_oscommand_name')]",
-            "location": "southeastasia",
+            "location": "[parameters('location')]",
             "properties": {
                 "state": "Enabled",
                 "definition": {
@@ -55,7 +63,7 @@
                                     "name": "@{triggerBody()['name']}"
                                 },
                                 "function": {
-                                    "id": "[concat(parameters('sites_func_openai_oscommand_externalid'), '/functions/http_trigger1')]"
+                                    "id": "[concat('/subscriptions/', parameters('subscription_id'), '/resourceGroups/', parameters('rg_name'),'/providers/Microsoft.Web/sites/func-openai-oscommand', '/functions/http_trigger1')]"
                                 }
                             }
                         },
