@@ -1,6 +1,6 @@
 # Attack Simulation Lab
 
-![Diagram](https://github.com/user-attachments/assets/c9e1c7af-a283-4734-88ed-a44f2365ac8f)
+![Diagram](https://github.com/user-attachments/assets/217e6ec7-05a8-41b4-b6ff-fe06d88d24aa)
 
 Sentinel Alerts
 <p align="center">

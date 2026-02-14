@@ -1,10 +1,10 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36 Edg/144.0.0.0" version="29.3.6">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36 Edg/144.0.0.0" version="29.3.8">
   <diagram name="Page-1" id="uWAVu5XP6Ify0rhKrq9b">
-    <mxGraphModel dx="2418" dy="1984" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2304" dy="1926" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="rFwAzw4cIT1ix0XhV7xI-10" parent="1" style="fontStyle=0;verticalAlign=top;align=center;spacingTop=-2;fillColor=none;rounded=0;whiteSpace=wrap;html=1;strokeColor=#919191;strokeWidth=2;container=1;collapsible=0;expand=0;recursiveResize=0;" value="Resource Group" vertex="1">
+        <mxCell id="rFwAzw4cIT1ix0XhV7xI-10" parent="1" style="fontStyle=0;verticalAlign=top;align=center;spacingTop=-2;fillColor=none;rounded=0;whiteSpace=wrap;html=1;strokeColor=#919191;strokeWidth=2;container=1;collapsible=0;expand=0;recursiveResize=0;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="Resource Group" vertex="1">
           <mxGeometry height="580" width="900" x="-180" y="-38" as="geometry" />
         </mxCell>
         <mxCell id="rFwAzw4cIT1ix0XhV7xI-8" parent="rFwAzw4cIT1ix0XhV7xI-10" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/management_governance/Activity_Log.svg;" value="Azure Activity" vertex="1">
@@ -35,6 +35,27 @@
           <mxGeometry height="59" width="59" x="340" y="253.5" as="geometry" />
         </mxCell>
         <mxCell id="rFwAzw4cIT1ix0XhV7xI-15" edge="1" parent="rFwAzw4cIT1ix0XhV7xI-10" source="rFwAzw4cIT1ix0XhV7xI-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="rFwAzw4cIT1ix0XhV7xI-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fpDh7rDN9HB66BpgdVQM-1" parent="rFwAzw4cIT1ix0XhV7xI-10" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;editableCssRules=.*;image=data:image/svg+xml,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJmZTYyYzRkYS1hYjk4LTRiYjMtYTFhNS05YTIyYjIyOTYxNGMiIHZpZXdCb3g9IjEuOTE3MDAwMjkzNzMxNjg5NSAwLjUgMTQuMTY2MDAwMzY2MjEwOTM4IDE3LjAwMzE4NzE3OTU2NTQzIiB3aWR0aD0iMTQuMTY2MDAwMzY2MjEwOTM4IiBoZWlnaHQ9IjE3LjAwMzE4NzE3OTU2NTQzIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImYzNjEzNmU2LWY1NjgtNDEzNC1hYjZmLWMwZmVmYmMwNGY4MyIgeDE9IjkiIHkxPSIxNi43OTUiIHgyPSI5IiB5Mj0iMS4yMDUiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiM1ZTk2MjQiLz48c3RvcCBvZmZzZXQ9IjAuMzIxIiBzdG9wLWNvbG9yPSIjNjM5ZDI2Ii8+PHN0b3Agb2Zmc2V0PSIwLjc5NCIgc3RvcC1jb2xvcj0iIzZmYjEyYSIvPjxzdG9wIG9mZnNldD0iMC45OTkiIHN0b3AtY29sb3I9IiM3NmJjMmQiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48Zz48cGF0aCBkPSJNMTYuMDgzLDguNDM4YzAsNC41NzEtNS42MjYsOC4yNS02Ljg1LDlhLjQ0OS40NDksMCwwLDEtLjQ2NiwwYy0xLjIyNC0uNzQ3LTYuODUtNC40MjYtNi44NS05di01LjVBLjQ0LjQ0LDAsMCwxLDIuMzUxLDIuNUM2LjcyOCwyLjM4Niw1LjcyLjUsOSwuNXMyLjI3MiwxLjg4Niw2LjY0OSwyYS40NC40NCwwLDAsMSwuNDM0LjQzNVoiIGZpbGw9IiM3NmJjMmQiLz48cGF0aCBkPSJNMTUuNSw4LjQ4NWMwLDQuMTkxLTUuMTYsNy41NjYtNi4yODIsOC4yNWEuNDEyLjQxMiwwLDAsMS0uNDI4LDBDNy42NjQsMTYuMDUxLDIuNSwxMi42NzYsMi41LDguNDg1VjMuNDQxYS40LjQsMCwwLDEsLjQtLjRDNi45MTYsMi45MzUsNS45OTIsMS4yMDUsOSwxLjIwNXMyLjA4NCwxLjczLDYuMSwxLjgzN2EuNC40LDAsMCwxLC40LjRaIiBmaWxsPSJ1cmwoI2YzNjEzNmU2LWY1NjgtNDEzNC1hYjZmLWMwZmVmYmMwNGY4MykiLz48cGF0aCBkPSJNMTEuODUzLDcuNjZoLS40MDhsMC0xLjQxN2EyLjY1MiwyLjY1MiwwLDAsMC0uNy0xLjgwOSwyLjM1OCwyLjM1OCwwLDAsMC0zLjQ4MywwLDIuNjA2LDIuNjA2LDAsMCwwLS43LDEuODA4VjcuNjZINi4xNDdhLjMyOC4zMjgsMCwwLDAtLjMyNi4zMnYzLjY4MmEuMzI5LjMyOSwwLDAsMCwuMzI2LjMyaDUuNzA2YS4zMjkuMzI5LDAsMCwwLC4zMjYtLjMyVjcuOThBLjMyOC4zMjgsMCwwLDAsMTEuODUzLDcuNjZabS0xLjU0OSwwSDcuN1Y2LjIxOWExLjQzNCwxLjQzNCwwLDAsMSwuNDEtLjk5LDEuMiwxLjIsMCwwLDEsMS43ODgsMCwxLjM5NCwxLjM5NCwwLDAsMSwuMTUzLjJoMGExLjQ0NSwxLjQ0NSwwLDAsMSwuMjU4Ljc5MVoiIGZpbGw9IiNmZmYiLz48cGF0aCBkPSJNNi4xNDgsNy42NThoNS43MDVhLjMyOC4zMjgsMCwwLDEsLjIxLjA4TDUuOTM4LDExLjlhLjMxMy4zMTMsMCwwLDEtLjExNi0uMjQxVjcuOTc5QS4zMjguMzI4LDAsMCwxLDYuMTQ4LDcuNjU4WiIgZmlsbD0iI2IzYjNiMyIgb3BhY2l0eT0iMC4xNSIvPjxwYXRoIGQ9Ik0xMS44NTMsNy42NThINi4xNDdhLjMyOC4zMjgsMCwwLDAtLjIwOS4wOEwxMi4wNjIsMTEuOWEuMzE0LjMxNCwwLDAsMCwuMTE3LS4yNDFWNy45NzlBLjMyOS4zMjksMCwwLDAsMTEuODUzLDcuNjU4WiIgZmlsbD0iI2EzYTNhMyIgb3BhY2l0eT0iMC4wOSIvPjwvZz48L3N2Zz4=;" value="Defender for&#xa;Cloud" vertex="1">
+          <mxGeometry height="60.71" width="50" x="344.5" y="148" as="geometry" />
+        </mxCell>
+        <mxCell id="fpDh7rDN9HB66BpgdVQM-5" parent="rFwAzw4cIT1ix0XhV7xI-10" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/ai_machine_learning/Azure_OpenAI.svg;" value="OpenAI" vertex="1">
+          <mxGeometry height="52" width="52" x="451" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="fpDh7rDN9HB66BpgdVQM-7" parent="rFwAzw4cIT1ix0XhV7xI-10" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/internet_of_things/Logic_Apps.svg;" value="Logic Apps" vertex="1">
+          <mxGeometry height="56" width="56" x="565" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="fpDh7rDN9HB66BpgdVQM-8" edge="1" parent="rFwAzw4cIT1ix0XhV7xI-10" source="fpDh7rDN9HB66BpgdVQM-1" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=-0.019;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;startArrow=classic;startFill=1;endArrow=none;endFill=0;" target="fpDh7rDN9HB66BpgdVQM-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fpDh7rDN9HB66BpgdVQM-10" edge="1" parent="rFwAzw4cIT1ix0XhV7xI-10" source="fpDh7rDN9HB66BpgdVQM-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.996;entryY=0.538;entryDx=0;entryDy=0;entryPerimeter=0;" target="fpDh7rDN9HB66BpgdVQM-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fpDh7rDN9HB66BpgdVQM-11" parent="rFwAzw4cIT1ix0XhV7xI-10" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/compute/Function_Apps.svg;" value="Function Apps" vertex="1">
+          <mxGeometry height="60" width="68" x="683" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="fpDh7rDN9HB66BpgdVQM-12" edge="1" parent="rFwAzw4cIT1ix0XhV7xI-10" source="fpDh7rDN9HB66BpgdVQM-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.961;entryY=0.529;entryDx=0;entryDy=0;entryPerimeter=0;" target="fpDh7rDN9HB66BpgdVQM-7">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="lHRbHFI39OeaVuORi3kZ-1" parent="1" style="image;aspect=fixed;perimeter=ellipsePerimeter;html=1;align=center;shadow=0;dashed=0;spacingTop=3;image=img/lib/active_directory/domain_controller.svg;" value="WIN-SVR01&lt;br&gt;(Domain Controller)" vertex="1">
@@ -110,6 +131,9 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="rFwAzw4cIT1ix0XhV7xI-13" edge="1" parent="1" source="rFwAzw4cIT1ix0XhV7xI-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="lHRbHFI39OeaVuORi3kZ-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fpDh7rDN9HB66BpgdVQM-4" edge="1" parent="1" source="fpDh7rDN9HB66BpgdVQM-1" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0.93;entryY=0.062;entryDx=0;entryDy=0;entryPerimeter=0;" target="lHRbHFI39OeaVuORi3kZ-11">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
