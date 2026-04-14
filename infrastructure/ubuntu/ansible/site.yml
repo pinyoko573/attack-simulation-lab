@@ -1,0 +1,15 @@
+- hosts: ubuntu_arc
+  roles:
+  - { role: ubuntu_changehostname, become: yes }
+  - { role: ubuntu_joindomain, become: yes }
+  - { role: ubuntu_azurearc, become: yes }
+- hosts: ubuntu_mysql
+  roles:
+  - { role: ubuntu_changehostname, become: yes }
+  - { role: ubuntu_joindomain, become: yes }
+  - { role: ubuntu_mysql, become: yes }
+- hosts: ubuntu_wordpress
+  roles:
+  - { role: ubuntu_changehostname, become: yes }
+  - { role: ubuntu_joindomain, become: yes }
+  - { role: ubuntu_wordpress, become: yes }

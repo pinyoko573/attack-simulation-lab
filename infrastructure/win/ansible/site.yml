@@ -1,0 +1,14 @@
+- hosts: win_dc
+  roles:
+  - win_changehostname
+  - win_createdomain
+- hosts: win_pc
+  roles:
+  - win_changehostname
+  - win_joindomain
+- hosts: win_arc
+  roles:
+  - win_changehostname
+  - win_joindomain
+  - win_eventcollector
+  - win_azurearc

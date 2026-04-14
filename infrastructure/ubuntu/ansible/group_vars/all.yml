@@ -1,0 +1,4 @@
+ansible_become_password: P@ssw0rd
+
+domain_name: mydomain.com
+domain_controller: win2022-svr01

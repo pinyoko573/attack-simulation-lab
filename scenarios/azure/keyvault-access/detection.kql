@@ -1,0 +1,4 @@
+AzureDiagnostics
+| where ResourceProvider == "MICROSOFT.KEYVAULT"
+| where ResultSignature == "Forbidden" and isRbacAuthorized_b == false
+| where identity_claim_idtyp_s == "app"

@@ -1,0 +1,19 @@
+win:
+  children:
+    win_dc:
+      hosts:
+        win2022-svr01:
+          ansible_host: 192.168.10.135
+          host_name: WIN-SVR01
+    
+    win_arc:
+      hosts:
+        win2022-svr02:
+          ansible_host: 192.168.10.140
+          host_name: WIN-SVR02
+
+    win_pc:
+      hosts:
+        win11-pc01:
+          ansible_host: 192.168.10.139
+          host_name: WIN-PC01

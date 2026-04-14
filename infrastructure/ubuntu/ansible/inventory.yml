@@ -1,0 +1,23 @@
+ubuntu:
+  children:
+    ubuntu_arc:
+      hosts:
+        ubuntu24.04.3-svr01:
+          ansible_host: 192.168.10.147
+          ansible_user: ubuntu
+          host_name: ubuntu-svr01
+    
+    ubuntu_lamp:
+      ubuntu_mysql:
+        hosts:
+          ubuntu24.04.3-svr02:
+            ansible_host: 192.168.10.146
+            ansible_user: ubuntu
+            host_name: ubuntu-svr02
+      
+      ubuntu_wordpress:
+        hosts:
+          ubuntu24.04.3-svr03:
+            ansible_host: 192.168.10.145
+            ansible_user: ubuntu
+            host_name: ubuntu-svr03

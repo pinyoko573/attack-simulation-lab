@@ -1,0 +1,5 @@
+wordpress_mysql_server: ubuntu24.04.3-svr02
+wordpress_database_host: "{{ hostvars[wordpress_mysql_server]['ansible_host'] }}"
+wordpress_database_name: wordpress
+wordpress_database_username: wordpress
+wordpress_database_password: P@ssw0rd

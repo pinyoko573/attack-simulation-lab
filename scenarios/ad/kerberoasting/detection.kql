@@ -1,0 +1,18 @@
+Event
+| where EventID == 4769
+| extend CleanXml = replace(@'\s+xmlns="[^"]*"', "", EventData)
+| extend Parsed = parse_xml(CleanXml)
+| mv-expand DataNode = Parsed.DataItem.EventData.Data
+| extend
+    Field = tostring(DataNode['@Name']),
+    Value = tostring(DataNode['#text'])
+| summarize Bag = make_bag(pack(Field, Value)) by TimeGenerated, EventID
+| evaluate bag_unpack(Bag)
+| extend TicketEncryptionType = column_ifexists("TicketEncryptionType", '')
+| where TicketEncryptionType == "0x17"
+| extend TargetUserName = column_ifexists("TargetUserName", '')
+| extend TargetDomainName = column_ifexists("TargetDomainName", '')
+| extend IpAddress = column_ifexists("IpAddress", '')
+| extend ServiceName = column_ifexists("ServiceName", '')
+| extend userName = split(TargetUserName, '@')[0]
+| extend IpAddress_V4 = extract(@"(\d+\.\d+\.\d+\.\d+)", 1, IpAddress)

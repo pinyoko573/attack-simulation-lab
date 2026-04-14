@@ -1,4 +1,0 @@
-domain_name: mydomain.com
-domain_controller: win2022-svr01
-mysql_server: ubuntu24.04.3-svr02
-wordpress_server: ubuntu24.04.3-svr03
