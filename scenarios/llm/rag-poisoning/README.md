@@ -14,6 +14,12 @@ RAG Poisoning is commonly associated with **supply chain attacks**, where advers
 
 In this scenario, the target is a medical assistant that provides recommended medication dosages. An attacker with write access to the knowledge source modifies the document to contain dangerous dosage information. Future patients who rely on the assistant's recommendations are exposed to serious health risk.
 
+## Attack Steps
+Temper the data by changing the recommended medication dosage e.g. Atorvastatin to 200mg.
+
+## Detections
+This scenario cannot be detected in Microsoft Defender for Cloud.
+
 ## Remediation
 - Restrict write access to knowledge sources. Only authorised administrators should be able to upload or modify documents in the RAG data source.
 - Implement document review workflows. Any new or modified document added to the knowledge base should go through an approval process before being indexed, particularly in environments where multiple staff have upload permissions.

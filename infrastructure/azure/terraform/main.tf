@@ -63,16 +63,8 @@ module "keyvault" {
   sub_tenant_id = data.azurerm_client_config.current.tenant_id
 }
 
-module "openai" {
-  source = "./modules/openai"
-  rg = {
-    name     = azurerm_resource_group.rg-lab.name
-    location = azurerm_resource_group.rg-lab.location
-  }
-}
-
-module "appserviceplan" {
-  source = "./modules/appserviceplan"
+module "foundry" {
+  source = "./modules/foundry"
   rg = {
     name     = azurerm_resource_group.rg-lab.name
     location = azurerm_resource_group.rg-lab.location

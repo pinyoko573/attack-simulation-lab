@@ -1,5 +1,5 @@
 # Training Data Poisoning
-**MITRE ATT&CK:** [T1195](https://attack.mitre.org/techniques/T1195/) — Supply Chain Compromise  
+**MITRE ATT&CK:** [T1565.001](https://attack.mitre.org/techniques/T1565/001/) — Data Manipulation: Stored Data Manipulation  
 **OWASP LLM Top 10:** [LLM03:2025](https://owasp.org/www-project-top-10-for-large-language-model-applications/) — Training Data Poisoning
 **Tactic:** Impact
 
@@ -13,6 +13,12 @@ Training Data Poisoning occurs when an attacker tampers with the data used to tr
 Training Data Poisoning is commonly associated with **supply chain attacks**, where adversaries target open-source datasets or model repositories used by many downstream consumers. A single poisoned dataset can affect every organisation that trains on it.
 
 In this scenario, a diabetes prediction model classifies patients as diabetic or non-diabetic based on age and blood glucose levels. An attacker with access to the training pipeline poisons the dataset by **flipping labels** for high-risk patients, causing the retrained model to produce dangerous false negatives — predicting non-diabetic for patients who are actually diabetic.
+
+## Attack Steps
+Temper the data by flipping labels e.g. setting some data to true.
+
+## Detections
+This scenario cannot be detected in Microsoft Defender for Cloud.
 
 ## Remediation
 - Restrict write access to training datasets.
